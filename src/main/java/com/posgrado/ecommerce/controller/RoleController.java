@@ -31,7 +31,7 @@ public class RoleController {
   @PostMapping
   public ResponseEntity<Role> save(@RequestBody RolDto dto){
     Role  role = roleService.save(dto);
-    return ResponseEntity.status(HttpStatus.OK).body(role);
+    return ResponseEntity.status(HttpStatus.CREATED).body(role);
   }
 
 }

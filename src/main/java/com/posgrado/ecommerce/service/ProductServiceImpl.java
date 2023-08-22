@@ -7,6 +7,7 @@ import com.posgrado.ecommerce.entity.Product;
 import com.posgrado.ecommerce.exception.CategoryNotFound;
 import com.posgrado.ecommerce.exception.ProductNotFound;
 import com.posgrado.ecommerce.mapper.ProductMapper;
+import com.posgrado.ecommerce.repository.CategoryRepository;
 import com.posgrado.ecommerce.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
   private ProductRepository productRepository;
+  private CategoryRepository categoryRepository;
   private CategoryService categoryService;
   private ProductMapper productMapper;
 
@@ -51,9 +53,13 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Product update(UUID id, ProductDto dto) {
-    Boolean existsProduct = productRepository.existsById(id);
-    if(!existsProduct){
+    boolean existsProduct = productRepository.existsById(id);
+    boolean existsCategory = categoryRepository.existsById(dto.getCategoryId());
+    if(!existsProduct ){
       throw new ProductNotFound(id);
+    }
+    if(!existsCategory){
+      throw new CategoryNotFound(id);
     }
     Product product = productRepository.findById(id).orElseThrow(
         ()-> new RuntimeException("Resource not found")

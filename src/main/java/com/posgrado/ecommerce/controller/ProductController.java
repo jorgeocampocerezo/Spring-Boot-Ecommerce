@@ -87,7 +87,7 @@ public class ProductController {
   @PutMapping("{id}")
   public ResponseEntity<Product> update(@PathVariable UUID id,@RequestBody ProductDto dto ){
     Product productFound = productService.update(id,dto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(productFound);
+    return ResponseEntity.status(HttpStatus.OK).body(productFound);
   }
   @GetMapping("/category/{id}")
   public ResponseEntity<PageDto<Product>> productByCategory(
